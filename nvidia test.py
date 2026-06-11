@@ -3,7 +3,7 @@ import time
 import threading
 from PIL import Image
 import pystray
-from pystray import MenuItem as item
+
 
 log_path = Path(r"C:\Users\Fcowl\AppData\Local\NVIDIA Corporation\NVIDIA Overlay\CxNative_NVIDIA Overlay.log")
 
@@ -117,6 +117,5 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
-    pass
+
