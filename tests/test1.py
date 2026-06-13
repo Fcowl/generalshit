@@ -1,17 +1,11 @@
-from pathlib import Path
+import re
 
-p = Path(__file__).parent.parent / 'procesess'
+data = "-67*0--9-0*68-"
 
-with open(p / 'краш.txt',encoding='utf-8') as f:
-    crash_list = [n.strip() for n in f.readlines()]
-with open(p/'не краш.txt',encoding='utf-8') as f:
-    no_crash_list = [n.strip() for n in f.readlines()]
+num = r'(?:0|[6789][06789]*)'
+pattern = rf'{num}(?:[-*]{num})*'
 
-prob_crash  = []
-no_crash_set = set(no_crash_list)
-for item in set(crash_list):
-   if item not in no_crash_set:
-       prob_crash.append(item)
+matches = re.finditer(pattern, data)
 
+print(*matches)
 
-print(prob_crash)

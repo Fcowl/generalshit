@@ -1,31 +1,30 @@
-import fnmatch
-import math
+import timeit
+from functools import cache,lru_cache
 
-mask = '34?8*9'
+import sys
+sys.setrecursionlimit(2000)
+@lru_cache(maxsize=None)
+def f1(n):
+    if n < 10:
+        return 1
+    return (n+3)*f1(n-3)
 
-def get_divs(n):
-    divs = []
-    for d in range(2, math.isqrt(n)+1):
-        if n % d ==0 :
-            divs.append(d)
-            divs.append(n // d)
-    return divs
-def is_prime(n):
-    for d in range(2, math.isqrt(n)+1):
-        if n % d == 0:
-            return False
-    return True
+@cache
+def f2(n):
+    if n < 10:
+        return 1
+    return (n+3)*f2(n-3)
 
+def test1():
+    a = (f1(x) for x in range(1, 247563))
+    print(  (f1(247563)/519-477*f1(247560))/f1(247557)  )
 
+def test2():
+    a = (f2(x) for x in range(1, 247563))
+    print((f2(247563) / 519 - 477 * f2(247560)) / f2(247557))
 
+#t1 = timeit.timeit(lambda :test1(), number=10)
+#t2 = timeit.timeit(lambda :test2(), number=10)
+test1()
 
-for i in range(0,10**7):
-    if fnmatch.fnmatch(str(i),mask):
-        divs = get_divs(i)
-        c = 0
-        for d in divs:
-            if c>4:
-                print(i)
-                break
-            if is_prime(d):
-                c+=1
+#print(t1, t2)
