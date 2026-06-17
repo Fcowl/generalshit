@@ -40,7 +40,7 @@ def start_tg():
     if not functions2.is_process_running("Telegram.exe"):
         telegram_icon = r"C:\Users\Fcowl\PycharmProject\FinallyWorkingDs\image_assets\telegram_logo.png"
         try:
-            location = pyautogui.locateOnScreen(telegram_icon, confidence=0.9)
+            location = pyautogui.locateOnScreen(telegram_icon)
             if location:
                 pyautogui.click(location)
                 print("telegram starting (click)")
@@ -56,8 +56,8 @@ def startup():
                                'Discord.exe':r"C:\Users\Fcowl\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\Discord.lnk",
                                'opera.exe':r"C:\Users\Fcowl\AppData\Local\Programs\Opera GX\opera.exe",
                                'Spotify.exe':r"C:\Users\Fcowl\AppData\Roaming\Spotify\Spotify.exe",
-                               'playtime_13-06-2026.exe':r"C:\Users\Fcowl\PycharmProject\playtime_counter\dist\playtime_13-06-2026.exe",
-                               'SpotifyGlobal.exe':r'C:\Users\Fcowl\PycharmProject\FinallyWorkingDs\spotify global\SpotifyGlobal.exe'}
+                               'playtime_14-06-2026.exe':r"C:\Users\Fcowl\PycharmProject\Playtime_Counter_git\dist\playtime_14-06-2026.exe"}
+                               #'SpotifyGlobal.exe':r'C:\Users\Fcowl\PycharmProject\FinallyWorkingDs\spotify global\SpotifyGlobal.exe'}
 
     logging.info("Начался запуск начальных приложений")
     start_tg()
@@ -73,4 +73,5 @@ def startup():
 
 
 if __name__ == '__main__':
+    logging.info('')
     startup()
