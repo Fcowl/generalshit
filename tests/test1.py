@@ -1,6 +1,26 @@
-def find_m(n):
-    return [d+n//d or 0 for d in range(2,int(n**0.5)+1) if n % d == 0] or ['1']
-print(*[(i,find_m(i)[0]) for i in range(1_500_000,1_500_110+1) if str(find_m(i)[0]).endswith("7") and str(find_m(i)[0]).count('2') == 0],sep='\n')
+import keyboard
+import pyautogui
+import time
+import pygetwindow as gw
+from pygetwindow import Win32Window
 
-print(*[(i, m) for i in range(1_500_000, 1_500_111) if str(m := ([d+i//d or 0 for d in range(2, int(i**0.5)+1) if i % d == 0] or ['1'])[0]).endswith("7") and '2' not in str(m)], sep='\n')
+time.sleep(1)
+print('beggining')
+box = (2418,24,78,78)
+box2 = (2102,28,71,68)
+box3 = (600,1334,236,60)
+skip_button_box = (2087,65,40,32)
+hsr_window = gw.getActiveWindow()
+window_width = hsr_window.width
+window_height = hsr_window.height
+gw.getWindowsWithTitle('Honkai: Star Rail')[0]
+print(hsr_window)
+try:
+    loc = pyautogui.locateOnScreen(r'C:\Users\Fcowl\PycharmProject\GeneralShit\Genshin\media\skip_button.png',confidence=0.5)
+except pyautogui.ImageNotFoundException:
+    print('not found')
+else:
+    pyautogui.moveTo(loc)
+
+    print(loc)
 

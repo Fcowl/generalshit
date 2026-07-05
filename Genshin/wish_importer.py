@@ -1,5 +1,5 @@
 import time
-import os
+
 
 import keyboard
 import pyautogui
@@ -9,14 +9,54 @@ from pygetwindow import Win32Window
 import subprocess
 
 
-def main():
+def genshin():
     windows:list[Win32Window] = gw.getWindowsWithTitle('Genshin Impact')
     for window in windows:
         if window.title == 'Genshin Impact':
             window.restore()
             window.activate()
             break
-    keyboard.press_and_release('F3')
+
+    box = (2418, 24, 78, 78)
+    box2 = (2102, 28, 71, 68)
+    box3 = (600, 1334, 236, 60)
+    ready_to_go = False
+
+    try:  # если мы уже в меню гемблинга
+        pyautogui.locateOnScreen("history.png", confidence=0.8,region=box3)
+    except pyautogui.ImageNotFoundException:
+        pass
+    else:
+        print('already in wish menu')
+        ready_to_go= True
+        
+    if not ready_to_go:
+        print("проверка на кретстик")
+        try: # закрытие карты
+            pyautogui.locateOnScreen('x.png',confidence=0.8,region=box)
+        except pyautogui.ImageNotFoundException:
+            pass
+        else:
+            print('крестик найден, нажимаем escape')
+            keyboard.press_and_release('escape')
+
+    time.sleep(1)
+    if not ready_to_go:
+        print('проверка на звездочку')
+        try: # потдвтверждение видимости меню виша
+            pyautogui.locateOnScreen('wish_logo.png',confidence=0.7,region=box2)
+        except pyautogui.ImageNotFoundException:
+            pass
+        else:
+            print('звезда найдена, pressing f3')
+            ready_to_go = True
+            keyboard.press_and_release('F3')
+
+    # open wish menu
+    if not ready_to_go:
+        print('непосадочное положение')
+        return
+
 
     time.sleep(1)
     pyautogui.moveTo(710, 1375)
@@ -32,7 +72,7 @@ def main():
     print('link obtained')
 
 
-    os.system('start https://paimon.moe/wish/import')
+    subprocess.run('start https://paimon.moe/wish/import',shell=True,encoding='utf-8',text=True)
     while 'Wish Counter - Paimon.moe - Opera' not in gw.getAllTitles():
         time.sleep(0.5)
 
@@ -62,9 +102,14 @@ def main():
     opera_window.moveTo(prev_pos[0],prev_pos[1])
     print('data imported')
 
+def hsr():
+    pass
 
 if __name__ == '__main__':
-    if 'Genshin Impact' in gw.getAllTitles():
-        main()
+    wins = gw.getAllTitles()
+    if 'Genshin Impact' in wins:
+        genshin()
+    elif 'Honkai: Star Rail' in wins:
+        hsr()
     else:
-        print('игра не найдена')
+        print("Игра не найдена")

@@ -1,12 +1,14 @@
+import time
+
 import pyautogui
 import os
 import sys
 import logging
 import functions2
+from pathlib import Path
 
-
-#parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-#sys.path.append(parent_dir)
+#parent_dir = os.media_path.abspath(os.media_path.join(os.media_path.dirname(__file__), ".."))
+#sys.media_path.append(parent_dir)
 
 
 # 1. Настройка логирования (в файл + консоль)
@@ -40,7 +42,7 @@ def start_tg():
     if not functions2.is_process_running("Telegram.exe"):
         telegram_icon = r"C:\Users\Fcowl\PycharmProject\FinallyWorkingDs\image_assets\telegram_logo.png"
         try:
-            location = pyautogui.locateOnScreen(telegram_icon)
+            location = pyautogui.locateOnScreen(telegram_icon,confidence=0.8)
             if location:
                 pyautogui.click(location)
                 print("telegram starting (click)")
@@ -50,13 +52,21 @@ def start_tg():
             print("не получилось запустить тг кликом")
 
 
+def find_last_playtime_counter_v():
+    path = Path(r'C:\Users\Fcowl\PycharmProject\Playtime_Counter_git\dist')
+    files = os.listdir(path)
+    target_file = sorted(files)[-1]
+    f_path = path / target_file
+    return target_file, f_path
+
 
 def startup():
+    pl_counter = find_last_playtime_counter_v()
     proc_path:dict[str,str] = {'Telegram.exe':r"C:\Users\Fcowl\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Telegram Desktop\Telegram.lnk",
                                'Discord.exe':r"C:\Users\Fcowl\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\Discord.lnk",
                                'opera.exe':r"C:\Users\Fcowl\AppData\Local\Programs\Opera GX\opera.exe",
                                'Spotify.exe':r"C:\Users\Fcowl\AppData\Roaming\Spotify\Spotify.exe",
-                               'playtime_14-06-2026.exe':r"C:\Users\Fcowl\PycharmProject\Playtime_Counter_git\dist\playtime_14-06-2026.exe"}
+                               f'{pl_counter[0]}':f"{pl_counter[1]}"}
                                #'SpotifyGlobal.exe':r'C:\Users\Fcowl\PycharmProject\FinallyWorkingDs\spotify global\SpotifyGlobal.exe'}
 
     logging.info("Начался запуск начальных приложений")
@@ -70,6 +80,7 @@ def startup():
             else:
                 logging.info(f"{proc} starting")
     logging.info("Все запущено, выход")
+    time.sleep(1)
 
 
 if __name__ == '__main__':
