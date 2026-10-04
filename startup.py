@@ -6,25 +6,24 @@ import sys
 import logging
 import functions2
 from pathlib import Path
-
+from datetime import datetime
 #parent_dir = os.media_path.abspath(os.media_path.join(os.media_path.dirname(__file__), ".."))
 #sys.media_path.append(parent_dir)
 
+def log():
+    # 1. Настройка логирования (в файл + консоль)
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
 
-# 1. Настройка логирования (в файл + консоль)
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+    file_handler = logging.FileHandler(r'C:\Users\Fcowl\PycharmProject\GeneralShit\logs\ Startup.log', encoding='UTF-8')
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 
-file_handler = logging.FileHandler(r'C:\Users\Fcowl\PycharmProject\GeneralShit\logs\ Startup.log', encoding='UTF-8')
-file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
-
-# 2. Функция-обработчик
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+log()
 def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)
@@ -32,8 +31,6 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     # Логируем ошибку
     logging.error("Неперехваченная ошибка:", exc_info=(exc_type, exc_value, exc_traceback))
     logging.error("Произошла ошибка, детали в Startup.log")
-
-# 3. Привязываем обработчик к системе
 sys.excepthook = handle_exception
 
 def start_tg():
@@ -53,12 +50,16 @@ def start_tg():
 
 
 def find_last_playtime_counter_v():
-    path = Path(r'C:\Users\Fcowl\PycharmProject\Playtime_Counter_git\dist')
-    files = os.listdir(path)
-    target_file = sorted(files)[-1]
-    f_path = path / target_file
-    return target_file, f_path
-
+    path = Path(r"C:\Users\Fcowl\PycharmProject\Playtime_Counter_git\dist")
+    files = list(path.glob("playtime_*.exe"))
+    latest = max(
+        files,
+        key=lambda f: datetime.strptime(
+            f.stem.removeprefix("playtime_"),
+            "%d-%m-%Y"
+        )
+    )
+    return latest.name, latest
 
 def startup():
     pl_counter = find_last_playtime_counter_v()
@@ -81,7 +82,6 @@ def startup():
                 logging.info(f"{proc} starting")
     logging.info("Все запущено, выход")
     time.sleep(1)
-
 
 if __name__ == '__main__':
     logging.info('')

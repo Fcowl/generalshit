@@ -10,14 +10,17 @@ import pygetwindow as gw
 
 media_path = Path(__file__).parent / 'media'
 
-skip_button_box = (2087,65,40,32)
+skip_button_box = (1900,65,240,32)
 
 little_x_box = (2294,296,53,52)
 
 white_target_color =(223, 223, 220)
 gray_target_color = (206, 206, 206)
+loc = pyautogui.locateOnScreen(str(media_path / 'skip_button.png'), confidence=0.5)
+print(loc)
+
 def main():
-    print('started')
+    print('dialog skipper started')
     while True:
         #time.sleep(1)
         keyboard.wait('b')
@@ -37,7 +40,7 @@ def main():
                 continue
 
             print('message box found')
-            while pix1 and pix2:
+            while pix1 and pix2 and gw.getActiveWindow().title == 'Honkai: Star Rail':
                 try:
                     pyautogui.locateOnScreen(str(media_path / 'little x.png'),confidence=0.8,region=little_x_box)
                     pyautogui.click(little_x_box)
@@ -52,7 +55,7 @@ def main():
         else:
             print('clicking')
             pyautogui.click(loc,clicks=2)
-            time.sleep(0.05)
+            time.sleep(0.10)
             pyautogui.click(x=1588, y=894)
             pyautogui.click(x=1484, y=1017)
 
