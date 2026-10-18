@@ -10,9 +10,16 @@ def cpu_benchmark_core(core_id):
 
     # Вычисления для проверки производительности
     total_operations = 0
-    for i in range(10**7):  # Многочисленные операции
+    for i in range(10**8):  # Многочисленные операции
         # Простая математическая операция
-        result = math.sqrt(i) + math.log(i + 1) if i > 0 else 0
+        st = []
+        for n in range(2,math.isqrt(i)):
+            for d in range(2,n):
+                if i%d == 0:
+                    st.append(d)
+                    st.append(n//d)
+
+        #result = math.sqrt(math.pow(math.log(i+1)//math.cos(i),4)) if i > 0 else 0
         total_operations += 1
 
     end_time = time.time()
