@@ -53,6 +53,7 @@ def activate(target_title: str = '', *, hwnd: int | None = None, pid: int | None
         return
 
     window: gw.Win32Window = gw.getWindowsWithTitle(target_title)[0]
+    window.restore()
     window.activate()
 
 def get_hwnds_by_pid(pid: int) -> list[int]:

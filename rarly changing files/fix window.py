@@ -1,4 +1,5 @@
 import win32gui
+import pygetwindow as gw
 
 #todo автоматический детект съехавшего окна и фикс его
 def move_window_no_resize(window_title, x, y):
@@ -19,5 +20,7 @@ def move_window_no_resize(window_title, x, y):
     win32gui.MoveWindow(hwnd, x, y, width, height, True)
 
 # Пример: переместить Блокнот в позицию (200, 200)
-title:str = r'Libre Hardware Monitor'
+title:str = r'Opera'
+title = gw.getWindowsWithTitle(title)[0].title
+
 move_window_no_resize(title, 0, 0)

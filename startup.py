@@ -62,7 +62,11 @@ def find_last_playtime_counter_v():
     return latest.name, latest
 
 def startup():
-    pl_counter = find_last_playtime_counter_v()
+    try:
+        pl_counter = find_last_playtime_counter_v()
+    except ValueError:
+        logging.error("pl counter broken")
+
     proc_path:dict[str,str] = {'Telegram.exe':r"C:\Users\Fcowl\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Telegram Desktop\Telegram.lnk",
                                'Discord.exe':r"C:\Users\Fcowl\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\Discord.lnk",
                                'opera.exe':r"C:\Users\Fcowl\AppData\Local\Programs\Opera GX\opera.exe",
