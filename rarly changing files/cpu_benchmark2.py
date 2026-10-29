@@ -158,7 +158,7 @@ def run_advanced_benchmark():
     print("=" * 70)
 
     # Тестовые значения
-    test_values = [35, 40, 45]
+    test_values = [30]
 
     # Получаем количество ядер
     num_cores = multiprocessing.cpu_count()
@@ -171,7 +171,7 @@ def run_advanced_benchmark():
         with concurrent.futures.ThreadPoolExecutor(max_workers=num_cores) as executor:
             # Многопоточное выполнение
             threads = [
-                executor.submit(fibonacci_iterative, n) for _ in range(num_cores)
+                executor.submit(fibonacci_recursive, n) for _ in range(num_cores)
             ]
             results = [thread.result() for thread in threads]
             print(
@@ -194,7 +194,7 @@ def run_advanced_benchmark():
 
 if __name__ == "__main__":
     # Запуск основного бенчмарка
-    run_benchmark()
+    #run_benchmark()
 
     # Запуск расширенного бенчмарка
     run_advanced_benchmark()
