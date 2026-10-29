@@ -1,10 +1,8 @@
 import time
 import multiprocessing
 import concurrent.futures
-from typing import List, Tuple
+from typing import Tuple
 import numpy as np
-from functools import partial
-import os
 
 
 def fibonacci_recursive(n: int) -> int:
@@ -106,7 +104,7 @@ def run_benchmark():
     print("=" * 70)
 
     # Тестовые значения (большие числа)
-    test_values = [30, 35, 40]
+    test_values = [30]
 
     # Получаем количество ядер
     num_cores = multiprocessing.cpu_count()
@@ -142,7 +140,7 @@ def run_benchmark():
             # Используем multiprocessing для параллельного выполнения
             start_time = time.perf_counter()
             with multiprocessing.Pool(processes=num_cores) as pool:
-                results = pool.map(fibonacci_iterative, [n] * num_cores)
+                results = pool.map(fibonacci_recursive, [n] * num_cores)
             end_time = time.perf_counter()
             print(
                 f"Параллельное выполнение ({num_cores} ядер): {end_time - start_time:.6f} секунд"
@@ -158,7 +156,7 @@ def run_advanced_benchmark():
     print("=" * 70)
 
     # Тестовые значения
-    test_values = [35, 40, 45]
+    test_values = [30]
 
     # Получаем количество ядер
     num_cores = multiprocessing.cpu_count()
@@ -171,7 +169,7 @@ def run_advanced_benchmark():
         with concurrent.futures.ThreadPoolExecutor(max_workers=num_cores) as executor:
             # Многопоточное выполнение
             threads = [
-                executor.submit(fibonacci_iterative, n) for _ in range(num_cores)
+                executor.submit(fibonacci_recursive, n) for _ in range(num_cores)
             ]
             results = [thread.result() for thread in threads]
             print(
@@ -194,7 +192,7 @@ def run_advanced_benchmark():
 
 if __name__ == "__main__":
     # Запуск основного бенчмарка
-    run_benchmark()
+    #run_benchmark()
 
     # Запуск расширенного бенчмарка
     run_advanced_benchmark()

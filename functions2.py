@@ -53,6 +53,7 @@ def activate(target_title: str = '', *, hwnd: int | None = None, pid: int | None
         return
 
     window: gw.Win32Window = gw.getWindowsWithTitle(target_title)[0]
+    window.show()
     window.restore()
     window.activate()
 
@@ -80,3 +81,12 @@ def get_pid_by_path(target_path: Path | str) -> int:
         except psutil.AccessDenied:
             continue
     raise ProcessNotFoundError(f'open process with path {target_path} not found')
+
+def files_in_folder(directory:Path | str, *,show_folders:bool=False,folders_only:bool=False) -> list[str]:
+    if isinstance(directory,str):
+        directory = Path(directory)
+
+    if folders_only:
+        return [f.name for f in directory.iterdir() if not f.is_file()]
+    return [f.name for f in directory.iterdir() if f.is_file() or show_folders]
+
