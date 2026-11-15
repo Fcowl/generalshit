@@ -1,3 +1,4 @@
+import ctypes
 import os
 import time
 from pathlib import Path
@@ -178,23 +179,29 @@ def hsr():
     pyautogui.click(1330,1113)
 
     opera_win.move(prev_loc[0],prev_loc[1])
-    opera_win.resizeTo(prev_loc[2],prev_loc[3])
+    #opera_win.resizeTo(prev_loc[2],prev_loc[3])
+    opera_win.maximize()
     print('data imported')
 
 if __name__ == '__main__':
-    if not is_admin():
-        print("not admin")
-        os._exit(0)
-    wins = gw.getAllTitles()
-    if 'Genshin Impact' in wins and 'Honkai: Star Rail' in wins:
-        print('открыто обе игры, какую выбрать?')
-        if input() == '1':
+    if is_admin():
+
+        wins = gw.getAllTitles()
+        if 'Genshin Impact' in wins and 'Honkai: Star Rail' in wins:
+            print('открыто обе игры, какую выбрать?')
+            if input() == '1':
+                genshin()
+            else:
+                hsr()
+        elif 'Genshin Impact' in wins:
             genshin()
-        else:
+        elif 'Honkai: Star Rail' in wins:
             hsr()
-    elif 'Genshin Impact' in wins:
-        genshin()
-    elif 'Honkai: Star Rail' in wins:
-        hsr()
+        else:
+            print("Игра не найдена")
+
     else:
-        print("Игра не найдена")
+        print("Запрос прав администратора...")
+        ctypes.windll.shell32.ShellExecuteW(
+            None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+
