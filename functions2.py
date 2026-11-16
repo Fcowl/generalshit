@@ -82,7 +82,7 @@ def get_pid_by_path(target_path: Path | str) -> int:
             continue
     raise ProcessNotFoundError(f'open process with path {target_path} not found')
 
-def files_in_folder(directory:Path | str, *,show_folders:bool=False,folders_only:bool=False) -> list[str]:
+def files_in_folder(directory:Path | str, *,show_folders:bool = False,folders_only:bool = False) -> list[str]:
     if isinstance(directory,str):
         directory = Path(directory)
 
