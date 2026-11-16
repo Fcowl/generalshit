@@ -25,7 +25,7 @@ def set_run_as_admin(shortcut_path: str, enable: bool = True) -> None:
 
 if __name__ == '__main__':
     taskbar_path : Path = Path(r"C:\Users\Fcowl\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar")
-    LNKs_to_patch:list[str] = ['CLion.lnk', 'IntelliJ IDEA.lnk', 'PyCharm.lnk', 'Rider.lnk']
+    LNKs_to_patch: list[str] = ['CLion.lnk', 'IntelliJ IDEA.lnk', 'PyCharm.lnk', 'Rider.lnk']
     LNKs_list: list[str] = functions2.files_in_folder(taskbar_path)
 
     for LNK in LNKs_list:
